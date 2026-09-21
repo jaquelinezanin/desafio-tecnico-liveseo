@@ -95,3 +95,13 @@ body {
   margin-top: 0;
 }
 
+.typescript-demo {
+  max-width: 420px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd;
+}
+
+.typescript-demo h2 {
+  margin-top: 0;
+}
