@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import UserForm from '../components/UserForm.vue'
 import UsersList from '../components/UsersList.vue'
 import {
@@ -6,6 +7,8 @@ import {
   getNamesOver23,
   type ExampleUser,
 } from '../utils/filterByNumericField'
+import { createUser, getUsers } from '../services/users.services'
+import type { CreateUserPayload, User } from '../types/user'
 
 const exampleUsers: ExampleUser[] = [
   { id: 1, name: 'Ana', age: 25 },
@@ -20,6 +23,32 @@ const usersOver23 = filterByNumericField(
   'age',
   23,
 )
+
+const users = ref<User[]>([])
+const errorMessage = ref('')
+
+async function loadUsers() {
+  try {
+    users.value = await getUsers()
+    errorMessage.value = ''
+  } catch {
+    errorMessage.value = 'Erro ao carregar usuários.'
+  }
+}
+
+async function handleCreateUser(user: CreateUserPayload) {
+  try {
+    await createUser(user)
+    await loadUsers()
+    errorMessage.value = ''
+  } catch {
+    errorMessage.value = 'Erro ao cadastrar usuário.'
+  }
+}
+
+onMounted(() => {
+  loadUsers()
+})
 </script>
 
 <template>
@@ -27,9 +56,15 @@ const usersOver23 = filterByNumericField(
     <h1>Usuários</h1>
     <p>Cadastro e listagem de usuários.</p>
 
-    <UserForm />
-
-    <UsersList />
+<UserForm @submit="handleCreateUser" />
+    
+    <UsersList :users="users" />
+    <p
+  v-if="errorMessage"
+  class="error-message"
+>
+  {{ errorMessage }}
+</p>
     <section class="typescript-demo">
   <h2>Demonstração TypeScript</h2>
 

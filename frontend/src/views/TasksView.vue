@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import TodoForm from '../components/TodoForm.vue'
 import TodoItem from '../components/TodoItem.vue'
 import type { Task } from '../types/task'
+import {
+  createTask,
+  deleteTask,
+  getTasks,
+  updateTask,
+} from '../services/tasks.service'
 
 type TaskFilter = 'all' | 'pending' | 'completed'
 
 const tasks = ref<Task[]>([])
 const filter = ref<TaskFilter>('all')
+const errorMessage = ref('')
 
 const filteredTasks = computed(() => {
   if (filter.value === 'pending') {
@@ -21,25 +28,53 @@ const filteredTasks = computed(() => {
   return tasks.value
 })
 
-function addTask(title: string) {
-  tasks.value.push({
-    id: Date.now(),
-    title,
-    completed: false,
-  })
-}
-
-function toggleTask(id: number) {
-  const task = tasks.value.find((task) => task.id === id)
-
-  if (task) {
-    task.completed = !task.completed
+async function loadTasks() {
+  try {
+    tasks.value = await getTasks()
+    errorMessage.value = ''
+  } catch {
+    errorMessage.value = 'Erro ao carregar tarefas.'
   }
 }
 
-function removeTask(id: number) {
-  tasks.value = tasks.value.filter((task) => task.id !== id)
+async function addTask(title: string) {
+  try {
+    await createTask(title)
+    await loadTasks()
+    errorMessage.value = ''
+  } catch {
+    errorMessage.value = 'Erro ao adicionar tarefa.'
+  }
 }
+
+async function toggleTask(id: number) {
+  const task = tasks.value.find((task) => task.id === id)
+
+  if (!task) {
+    return
+  }
+
+  try {
+    await updateTask(id, !task.completed)
+    await loadTasks()
+    errorMessage.value = ''
+  } catch {
+    errorMessage.value = 'Erro ao atualizar tarefa.'
+  }
+}
+
+async function removeTask(id: number) {
+  try {
+    await deleteTask(id)
+    await loadTasks()
+    errorMessage.value = ''
+  } catch {
+    errorMessage.value = 'Erro ao remover tarefa.'
+  }
+}
+onMounted(() => {
+  loadTasks()
+})
 </script>
 
 <template>
@@ -48,6 +83,13 @@ function removeTask(id: number) {
     <p>Organize suas tarefas.</p>
 
     <TodoForm @add="addTask" />
+    
+    <p
+  v-if="errorMessage"
+  class="error-message"
+>
+  {{ errorMessage }}
+</p>
 
     <div class="task-filters">
       <button type="button" @click="filter = 'all'">

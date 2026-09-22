@@ -1,12 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { CreateUserPayload } from '../types/user'
 
 const name = ref('')
 const email = ref('')
 const password = ref('')
+const emit = defineEmits<{
+  submit: [user: CreateUserPayload]
+}>()
 
 function handleSubmit() {
-  console.log('Formulário válido')
+  emit('submit', {
+    name: name.value,
+    email: email.value,
+  })
+
+  name.value = ''
+  email.value = ''
+  password.value = ''
 }
 </script>
 
