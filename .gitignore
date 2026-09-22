@@ -11,3 +11,6 @@ dist/
 
 # Logs
 npm-debug.log*
+
+# TypeScript build cache
+*.tsbuildinfo

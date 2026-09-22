@@ -5,13 +5,13 @@ import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 
 @Module({
-imports: [
-  ConfigModule.forRoot({
-    isGlobal: true,
-  }),
-  DatabaseModule,
-  UsersModule,
-  TasksModule,
-],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    DatabaseModule,
+    UsersModule,
+    TasksModule,
+  ],
 })
-export class AppModule {}
+export class AppModule { }

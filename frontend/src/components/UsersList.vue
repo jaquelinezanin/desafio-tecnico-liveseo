@@ -15,10 +15,7 @@ defineProps<{
     </p>
 
     <ul v-else>
-      <li
-        v-for="user in users"
-        :key="user.id"
-      >
+      <li v-for="user in users" :key="user.id">
         {{ user.name }} - {{ user.email }}
       </li>
     </ul>

@@ -21,12 +21,7 @@ function handleSubmit() {
 
 <template>
   <form class="todo-form" @submit.prevent="handleSubmit">
-    <input
-      v-model="title"
-      type="text"
-      placeholder="Nova tarefa"
-      required
-    />
+    <input v-model="title" type="text" placeholder="Nova tarefa" required />
 
     <button type="submit">
       Adicionar

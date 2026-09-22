@@ -7,7 +7,7 @@ import {
   getNamesOver23,
   type ExampleUser,
 } from '../utils/filterByNumericField'
-import { createUser, getUsers } from '../services/users.services'
+import { createUser, getUsers } from '../services/users.service'
 import type { CreateUserPayload, User } from '../types/user'
 
 const exampleUsers: ExampleUser[] = [
@@ -56,33 +56,27 @@ onMounted(() => {
     <h1>Usuários</h1>
     <p>Cadastro e listagem de usuários.</p>
 
-<UserForm @submit="handleCreateUser" />
-    
+    <UserForm @submit="handleCreateUser" />
+
     <UsersList :users="users" />
-    <p
-  v-if="errorMessage"
-  class="error-message"
->
-  {{ errorMessage }}
-</p>
+    <p v-if="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </p>
     <section class="typescript-demo">
-  <h2>Demonstração TypeScript</h2>
+      <h2>Demonstração TypeScript</h2>
 
-  <p>
-    Nomes dos usuários com mais de 23 anos:
-    <strong>{{ namesOver23.join(', ') }}</strong>
-  </p>
+      <p>
+        Nomes dos usuários com mais de 23 anos:
+        <strong>{{ namesOver23.join(', ') }}</strong>
+      </p>
 
-  <p>Bônus: filtro genérico por campo numérico</p>
+      <p>Bônus: filtro genérico por campo numérico</p>
 
-  <ul>
-    <li
-      v-for="user in usersOver23"
-      :key="user.id"
-    >
-      {{ user.name }} - {{ user.age }} anos
-    </li>
-  </ul>
-</section>
+      <ul>
+        <li v-for="user in usersOver23" :key="user.id">
+          {{ user.name }} - {{ user.age }} anos
+        </li>
+      </ul>
+    </section>
   </section>
 </template>

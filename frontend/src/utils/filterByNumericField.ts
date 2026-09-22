@@ -20,4 +20,3 @@ export function filterByNumericField<
 ): T[] {
   return items.filter((item) => item[field] > minimumValue)
 }
-

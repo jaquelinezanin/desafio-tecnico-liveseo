@@ -18,17 +18,11 @@ const emit = defineEmits<{
     </span>
 
     <div class="todo-actions">
-      <button
-        type="button"
-        @click="emit('toggle', task.id)"
-      >
+      <button type="button" @click="emit('toggle', task.id)">
         {{ task.completed ? 'Reabrir' : 'Concluir' }}
       </button>
 
-      <button
-        type="button"
-        @click="emit('remove', task.id)"
-      >
+      <button type="button" @click="emit('remove', task.id)">
         Remover
       </button>
     </div>

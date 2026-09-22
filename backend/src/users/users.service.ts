@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async findAll() {
     const result = await this.databaseService.query(
@@ -18,15 +18,15 @@ export class UsersService {
     return result.rows;
   }
   async create(createUserDto: CreateUserDto) {
-  const result = await this.databaseService.query(
-    `
+    const result = await this.databaseService.query(
+      `
       INSERT INTO users (name, email)
       VALUES ($1, $2)
       RETURNING id, name, email, created_at
     `,
-    [createUserDto.name, createUserDto.email],
-  );
+      [createUserDto.name, createUserDto.email],
+    );
 
-  return result.rows[0];
-}
+    return result.rows[0];
+  }
 }

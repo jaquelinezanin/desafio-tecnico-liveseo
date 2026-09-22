@@ -72,6 +72,7 @@ async function removeTask(id: number) {
     errorMessage.value = 'Erro ao remover tarefa.'
   }
 }
+
 onMounted(() => {
   loadTasks()
 })
@@ -83,36 +84,39 @@ onMounted(() => {
     <p>Organize suas tarefas.</p>
 
     <TodoForm @add="addTask" />
-    
-    <p
-  v-if="errorMessage"
-  class="error-message"
->
-  {{ errorMessage }}
-</p>
+
+    <p v-if="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </p>
 
     <div class="task-filters">
-      <button type="button" @click="filter = 'all'">
-        Todas
-      </button>
+  <button
+    type="button"
+    :class="{ active: filter === 'all' }"
+    @click="filter = 'all'"
+  >
+    Todas
+  </button>
 
-      <button type="button" @click="filter = 'pending'">
-        Pendentes
-      </button>
+  <button
+    type="button"
+    :class="{ active: filter === 'pending' }"
+    @click="filter = 'pending'"
+  >
+    Pendentes
+  </button>
 
-      <button type="button" @click="filter = 'completed'">
-        Concluídas
-      </button>
-    </div>
+  <button
+    type="button"
+    :class="{ active: filter === 'completed' }"
+    @click="filter = 'completed'"
+  >
+    Concluídas
+  </button>
+</div>
 
     <ul class="todo-list">
-      <TodoItem
-        v-for="task in filteredTasks"
-        :key="task.id"
-        :task="task"
-        @toggle="toggleTask"
-        @remove="removeTask"
-      />
+      <TodoItem v-for="task in filteredTasks" :key="task.id" :task="task" @toggle="toggleTask" @remove="removeTask" />
     </ul>
 
     <p v-if="filteredTasks.length === 0">
