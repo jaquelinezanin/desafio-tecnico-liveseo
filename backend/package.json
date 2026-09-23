@@ -8,8 +8,10 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "npm run db:up && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "oxlint --type-aware src/"

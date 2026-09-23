@@ -79,8 +79,11 @@ desafio-tecnico/
 ### 1. Clonar o repositório
 
 ```bash
+
 git clone https://github.com/jaquelinezanin/desafio-tecnico-liveseo.git
+
 cd desafio-tecnico-liveseo
+
 ```
 
 ### 2. Iniciar o PostgreSQL
@@ -88,29 +91,40 @@ cd desafio-tecnico-liveseo
 Entre na pasta do backend:
 
 ```bash
+
 cd backend
+
 ```
 
 Crie o arquivo `.env` com base no `.env.example`:
 
 ```env
+
 DB_HOST=localhost
+
 DB_PORT=5432
+
 DB_NAME=desafio
+
 DB_USER=postgres
+
 DB_PASSWORD=postgres
+
+FRONTEND_URL=http://localhost:5173
+
 ```
 
-Depois inicie o banco:
+A variável `FRONTEND_URL` é utilizada na configuração de CORS do backend.
 
-```bash
-docker compose up -d
-```
+O PostgreSQL será iniciado automaticamente ao executar o backend em modo de desenvolvimento.
+
+O script `npm run start:dev` executa primeiro o comando `npm run db:up`, que sobe o container do PostgreSQL com Docker Compose.
 
 O PostgreSQL ficará disponível na porta:
 
 ```text
 5432
+
 ```
 
 O arquivo `database/init.sql` cria automaticamente as tabelas `users` e `tasks` na primeira inicialização do banco.
@@ -120,47 +134,81 @@ O arquivo `database/init.sql` cria automaticamente as tabelas `users` e `tasks` 
 Ainda dentro de `backend/`:
 
 ```bash
+
 npm install
+
 npm run start:dev
+
 ```
 
 O backend ficará disponível em:
 
 ```text
+
 http://localhost:3000
+
+```text
+Também estão disponíveis os comandos:
+
+```bash
+npm run db:up
+npm run db:down
+
 ```
+
 
 ### 4. Iniciar o frontend
 
 Abra outro terminal e entre na pasta:
 
 ```bash
+
 cd frontend
+
 ```
 
 Instale as dependências:
 
 ```bash
+
 npm install
+
 ```
+
+Crie o arquivo `.env` com base no `.env.example`:
+
+```env
+
+VITE_API_URL=http://localhost:3000
+
+```
+
+A variável `VITE_API_URL` define a URL utilizada pelo frontend para se comunicar com a API.
 
 Depois execute:
 
 ```bash
+
 npm run dev
+
 ```
 
 O frontend ficará disponível em:
 
 ```text
+
 http://localhost:5173
+
 ```
 
 ## Rotas do frontend
 
 ```text
+
 /users
+
 /tasks
+
 ```
 
 ### /users
@@ -168,8 +216,11 @@ http://localhost:5173
 Contém:
 
 - formulário de cadastro;
+
 - validação dos campos;
+
 - lista de usuários persistidos;
+
 - demonstração do exercício de TypeScript.
 
 ### /tasks
@@ -177,9 +228,13 @@ Contém:
 Permite:
 
 - adicionar tarefas;
+
 - concluir tarefas;
+
 - reabrir tarefas;
+
 - remover tarefas;
+
 - filtrar por todas, pendentes e concluídas.
 
 As tarefas são persistidas no PostgreSQL.

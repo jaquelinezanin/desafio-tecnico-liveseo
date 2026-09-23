@@ -1,6 +1,6 @@
 import type { CreateUserPayload, User } from '../types/user'
 
-const API_URL = 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL
 
 export async function getUsers(): Promise<User[]> {
   const response = await fetch(`${API_URL}/users`)
